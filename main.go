@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
@@ -49,12 +50,19 @@ func main() {
 	go http.Serve(ln, http.FileServer(FS))
 	ui.Load(fmt.Sprintf("http://%s", ln.Addr()))
 
+	_, b, _, _ := runtime.Caller(0)
+	basepath := filepath.Dir(b)
+	os.Chdir(basepath)
+
+	pwd, _ := os.Getwd()
+
 	// You may use console.log to debug your JS code, it will be printed via
 	// log.Println(). Also exceptions are printed in a similar manner.
 	ui.Eval(`
 		console.log("Hello, world!");
 		console.log('Multiple values:', [1, false, {"x":5}]);
-	`)
+		console.log("` + pwd + `");`)
+	// console.log("` + pwd + `");`
 
 	// Wait until the interrupt signal arrives or browser window is closed
 	sigc := make(chan os.Signal)
