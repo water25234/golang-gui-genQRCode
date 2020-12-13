@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Counter</title>
+		<link rel="shortcut icon" href="favicon.png">
+		<style type="text/css">
+            .form-style-1 {
+                margin:10px auto;
+                max-width: 400px;
+                padding: 20px 12px 10px 20px;
+                font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+            }
+            .form-style-1 li {
+                padding: 0;
+                display: block;
+                list-style: none;
+                margin: 10px 0 0 0;
+            }
+            .form-style-1 label{
+                margin:0 0 3px 0;
+                padding:0px;
+                display:block;
+                font-weight: bold;
+            }
+            .form-style-1 input[type=text], 
+            .form-style-1 input[type=date],
+            .form-style-1 input[type=datetime],
+            .form-style-1 input[type=number],
+            .form-style-1 input[type=search],
+            .form-style-1 input[type=time],
+            .form-style-1 input[type=url],
+            .form-style-1 input[type=email],
+            textarea, 
+            select{
+                box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                border:1px solid #BEBEBE;
+                padding: 7px;
+                margin:0px;
+                -webkit-transition: all 0.30s ease-in-out;
+                -moz-transition: all 0.30s ease-in-out;
+                -ms-transition: all 0.30s ease-in-out;
+                -o-transition: all 0.30s ease-in-out;
+                outline: none;	
+            }
+            .form-style-1 input[type=text]:focus, 
+            .form-style-1 input[type=date]:focus,
+            .form-style-1 input[type=datetime]:focus,
+            .form-style-1 input[type=number]:focus,
+            .form-style-1 input[type=search]:focus,
+            .form-style-1 input[type=time]:focus,
+            .form-style-1 input[type=url]:focus,
+            .form-style-1 input[type=email]:focus,
+            .form-style-1 textarea:focus, 
+            .form-style-1 select:focus{
+                -moz-box-shadow: 0 0 8px #88D5E9;
+                -webkit-box-shadow: 0 0 8px #88D5E9;
+                box-shadow: 0 0 8px #88D5E9;
+                border: 1px solid #88D5E9;
+            }
+            .form-style-1 .field-divided{
+                width: 49%;
+            }
+
+            .form-style-1 .field-long{
+                width: 100%;
+            }
+            .form-style-1 .field-select{
+                width: 100%;
+            }
+            .form-style-1 .field-textarea{
+                height: 100px;
+            }
+            .form-style-1 input[type=submit], .form-style-1 input[type=button]{
+                background: #4B99AD;
+                padding: 8px 15px 8px 15px;
+                border: none;
+                color: #fff;
+            }
+            .form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
+                background: #4691A4;
+                box-shadow:none;
+                -moz-box-shadow:none;
+                -webkit-box-shadow:none;
+            }
+            .form-style-1 button, .form-style-1 button{
+                background: #4B99AD;
+                padding: 8px 15px 8px 15px;
+                border: none;
+                color: #fff;
+            }
+            .form-style-1 button:hover, .form-style-1 button:hover{
+                background: #4691A4;
+                box-shadow:none;
+                -moz-box-shadow:none;
+                -webkit-box-shadow:none;
+            }
+            .form-style-1 .required{
+                color:red;
+            }
+		</style>
+	</head>
+	<body onload=start()>
+        <!-- UI layout -->
+
+        <ul class="form-style-1">
+            <li>
+                <label>請輸入Pin Code <span class="required">*</span></label>
+                <textarea placeholder="請輸入Pin Code" name="pinCodeList" id="pinCodeList" class="field-long field-textarea" style="width:400px;height:450px;" ></textarea>
+            </li>
+            <li>
+                <label>請輸入要創建的資料夾 <span class="required">*</span></label>
+                <input type="text" class="field-long" name="folder" id="folder" placeholder="請輸入要創建的資料夾"  value="file"/>
+            </li>
+            <li>
+                <label>請輸入副檔名 <span class="required">*</span></label>
+                <input type="text" class="field-long" name="fileExt" id="fileExt"  placeholder="請輸入副檔名" value=".png"/>
+            </li>
+            <li >
+                <button class="submit" id="submit">Submit</button>
+                    <!-- <input type="submit" value="Submit" /> -->
+            </li>
+        </ul>
+
+		<!-- Connect UI actions to Go functions -->
+		<script>
+            const submit = document.querySelector('.submit');
+
+            submit.addEventListener('click', async () => {
+                const pinCodeList = document.getElementById("pinCodeList").value;
+			    const folder = document.getElementById("folder").value;
+			    const fileExt = document.getElementById("fileExt").value;
+
+                if (!pinCodeList) {
+                    alert("必須輸入Pin Code");
+                    return 
+                }
+
+                if (!folder) {
+                    alert("必須輸入要創建的資料夾");
+                    return 
+                }
+
+                if (!fileExt) {
+                    alert("必須輸入副檔名");
+                    return 
+                }
+
+                document.getElementById("submit").disabled = true;
+
+                alert("開始執行");
+
+                let result = await generatorQRCode(pinCodeList, folder, fileExt);
+
+                alert(result);
+                
+                document.getElementById("submit").disabled = false;
+			});
+		</script>
+	</body>
+</html>
