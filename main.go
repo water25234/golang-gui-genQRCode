@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
@@ -50,9 +49,10 @@ func main() {
 	go http.Serve(ln, http.FileServer(FS))
 	ui.Load(fmt.Sprintf("http://%s", ln.Addr()))
 
-	_, b, _, _ := runtime.Caller(0)
-	basepath := filepath.Dir(b)
-	os.Chdir(basepath)
+	// _, b, _, _ := runtime.Caller(0)
+	// basepath := filepath.Dir(b)
+	basePath, _ := os.UserHomeDir()
+	os.Chdir(basePath)
 
 	pwd, _ := os.Getwd()
 
