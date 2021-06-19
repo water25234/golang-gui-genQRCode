@@ -53,16 +53,17 @@ func main() {
 	// basepath := filepath.Dir(b)
 	basePath, _ := os.UserHomeDir()
 	os.Chdir(basePath)
+	fmt.Println(basePath)
 
 	pwd, _ := os.Getwd()
+	fmt.Println(pwd)
 
 	// You may use console.log to debug your JS code, it will be printed via
 	// log.Println(). Also exceptions are printed in a similar manner.
 	ui.Eval(`
 		console.log("Hello, world!");
-		console.log('Multiple values:', [1, false, {"x":5}]);
+		console.log("` + basePath + `");
 		console.log("` + pwd + `");`)
-	// console.log("` + pwd + `");`
 
 	// Wait until the interrupt signal arrives or browser window is closed
 	sigc := make(chan os.Signal)
